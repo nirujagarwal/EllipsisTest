@@ -4,6 +4,10 @@ on:
   pull_request:
     types: [opened]  # Trigger when a pull request is created
 
+permissions:
+  issues: write   
+  pull-requests: write
+
 jobs:
   post-comment:
     runs-on: ubuntu-latest
