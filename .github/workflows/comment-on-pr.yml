@@ -1,0 +1,21 @@
+name: Comment on Pull Request
+
+on:
+  pull_request:
+    types: [opened]  # Trigger when a pull request is created
+
+jobs:
+  post-comment:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Post thank you comment
+        uses: peter-evans/create-or-update-comment@v2
+        with:
+          issue-number: ${{ github.event.pull_request.number }}  # Automatically uses the current PR number
+          body: |
+            Thank you for creating a pull request! We'll review it soon. 😊
+          token: ${{ secrets.GITHUB_TOKEN }}  # GitHub token for authentication
