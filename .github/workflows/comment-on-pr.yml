@@ -1,25 +1,23 @@
-name: Comment on Pull Request
+name: Comment as Specific User
 
 on:
   pull_request:
-    types: [opened]  # Trigger when a pull request is created
-
-permissions:
-  issues: write   
-  pull-requests: write
+    types: [opened]
 
 jobs:
-  post-comment:
+  comment-as-user:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
-      - name: Post thank you comment
-        uses: peter-evans/create-or-update-comment@v2
+      - name: Add comment as specific user
+        uses: peter-evans/create-or-update-comment@v3
         with:
-          issue-number: ${{ github.event.pull_request.number }}  # Automatically uses the current PR number
+          token: ${{ secrets.MY_SECRET_TOKEN }}
+          issue-number: ${{ github.event.pull_request.number }}
           body: |
-            Thank you for creating a pull request! We'll review it soon. 😊
-          token: ${{ secrets.GITHUB_TOKEN }}  # GitHub token for authentication
+            Hello @${{ github.actor }},
+            
+            Thank you for your contribution! Please ensure that:
+            - Your PR follows the contribution guidelines.
+            - You have added or updated relevant documentation/tests.
+
+            We'll review your PR soon. 😊
